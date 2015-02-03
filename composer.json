@@ -1,0 +1,16 @@
+{
+    "name": "mrcore/modules/auth",
+    "description": "Mrcore Auth Module",
+    "authors": [
+        {
+            "name": "Matthew Reschke",
+            "email": "mreschke@dynatronsoftware.com"
+        }
+    ],
+    "autoload": {
+		"psr-4": {
+			"Mrcore\\Modules\\Auth\\": ""
+		}
+    },
+    "minimum-stability": "dev"
+}

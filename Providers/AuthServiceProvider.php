@@ -1,15 +1,15 @@
 <?php namespace Mrcore\Modules\Auth\Providers;
 
-use Mrcore\Support\ServiceProvider;
+use Mrcore\Modules\Foundation\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider {
+class FoundationServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 *
 	 * @var bool
 	 */
-	protected $defer = true;
+	protected $defer = false;
 
 	/**
 	 * Bootstrap the application services.

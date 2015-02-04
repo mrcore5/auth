@@ -1,16 +1,26 @@
 {
-    "name": "mrcore/modules/auth",
-    "description": "Mrcore Auth Module",
-    "authors": [
-        {
-            "name": "Matthew Reschke",
-            "email": "mreschke@dynatronsoftware.com"
-        }
-    ],
-    "autoload": {
+	"name": "mrcore/modules/auth",
+	"type": "library",
+	"description": "Mrcore Auth Module",
+	"keywords": ["mrcore", "framework", "auth", "laravel"],
+	"homepage": "http://github.com/mreschke/mrcore-modules-auth",
+	"license": "MIT",
+	"support": {
+		"issues": "https://github.com/mreschke/mrcore/issues"
+	},
+	"authors": [
+		{
+			"name": "Matthew Reschke",
+			"email": "mail@mreschke.com",
+			"homepage": "http://mreschke.com"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"autoload": {
 		"psr-4": {
 			"Mrcore\\Modules\\Auth\\": ""
 		}
-    },
-    "minimum-stability": "dev"
+	}
 }

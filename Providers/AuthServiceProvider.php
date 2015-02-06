@@ -1,8 +1,10 @@
 <?php namespace Mrcore\Modules\Auth\Providers;
 
+use View;
+use Illuminate\Routing\Router;
 use Mrcore\Modules\Foundation\Support\ServiceProvider;
 
-class FoundationServiceProvider extends ServiceProvider {
+class AuthServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -16,9 +18,15 @@ class FoundationServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function boot()
+	public function boot(Router $router)
 	{
-		//
+		// Register additional views
+		View::addLocation(__DIR__.'/../Views');
+
+		// Register additional routes
+		$router->group(['namespace' => 'Mrcore\Modules\Auth\Http\Controllers'], function($router) {
+			require __DIR__.'/../Http/routes.php';
+		});
 	}
 
 	/**
@@ -28,7 +36,7 @@ class FoundationServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		//		
 	}
 
 }

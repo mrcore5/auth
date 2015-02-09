@@ -1,7 +1,7 @@
 <?php namespace Mrcore\Modules\Auth\Providers;
 
 use View;
-use Illuminate\Routing\Router;
+use Module;
 use Mrcore\Modules\Foundation\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider {
@@ -18,15 +18,10 @@ class AuthServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function boot(Router $router)
+	public function boot()
 	{
-		// Register additional views
-		View::addLocation(__DIR__.'/../Views');
-
-		// Register additional routes
-		$router->group(['namespace' => 'Mrcore\Modules\Auth\Http\Controllers'], function($router) {
-			require __DIR__.'/../Http/routes.php';
-		});
+		// Mrcore Module Tracking
+		Module::trace(get_class(), __function__);
 	}
 
 	/**
@@ -36,7 +31,8 @@ class AuthServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//		
+		// Mrcore Module Tracking
+		Module::trace(get_class(), __function__);
 	}
 
 }

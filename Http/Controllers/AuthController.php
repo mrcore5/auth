@@ -58,7 +58,11 @@ class AuthController extends Controller {
 			Event::fire('Mrcore\Modules\Auth\Events\UserLoggedIn');
 
 			// Redirect to intended url
-			return redirect()->intended($this->redirectPath());
+			#return redirect()->intended($this->redirectPath());
+
+			// Redirect to intended url or home page if not found
+			// Never could get laravels redirect()->intended() to work so I manage manually
+			return redirect((Input::get('referer') ?: route('home')));
 		}
 
 		return redirect('/auth/login')
@@ -67,6 +71,9 @@ class AuthController extends Controller {
 				'email' => 'These credentials do not match our records.',
 			]);
 
+
+
+		// OLD mrcore5 auth stuff - keep for awhile, organize soon
 		
 		#$app = app();
 		#$username = Input::get('email');
@@ -94,7 +101,7 @@ class AuthController extends Controller {
 				//Authentication Successful
 				#Auth::user()->login();
 
-				// Redirect to indended url or home page if not found
+				// Redirect to intended url or home page if not found
 				#return Redirect::to($referer);
 
 			#	return redirect()->intended($this->redirectPath());

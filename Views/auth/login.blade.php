@@ -20,6 +20,7 @@
 
 					<form class="form-horizontal" role="form" method="POST" action="/auth/login">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" id="referer" name="referer" value="{{ $referer }}">
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>

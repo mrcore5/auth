@@ -1,5 +1,5 @@
 {
-	"name": "mrcore/modules/auth",
+	"name": "mrcore/auth",
 	"type": "library",
 	"description": "Mrcore Auth Module",
 	"keywords": ["mrcore", "framework", "auth", "laravel"],

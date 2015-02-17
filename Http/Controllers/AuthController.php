@@ -50,10 +50,10 @@ class AuthController extends Controller {
 			'email' => 'required', 'password' => 'required',
 		]);
 
-		// Fire UserLogin Event
-		Event::fire('Mrcore\Modules\Auth\Events\UserLogin');
-
 		$credentials = $request->only('email', 'password');
+
+		// Fire UserLogin Event
+		Event::fire('Mrcore\Modules\Auth\Events\UserLogin', [$credentials]);
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{

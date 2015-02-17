@@ -14,7 +14,7 @@ class UserLogin extends Event {
 	 */
 	public function __construct()
 	{
-		// 
+		//
 	}
 
 }

@@ -45,78 +45,34 @@ class AuthController extends Controller {
 	 */
 	public function postLogin(Request $request)
 	{
-
+		// Validate Input and redirect if Invalidated
 		$this->validate($request, [
 			'email' => 'required', 'password' => 'required',
 		]);
 
+		// Pull only email/password from input
 		$credentials = $request->only('email', 'password');
 
-		// Fire UserLogin Event
+		// Fire UserLogin Event, passing attempted credentials
 		Event::fire('Mrcore\Modules\Auth\Events\UserLogin', [$credentials]);
 
-		if ($this->auth->attempt($credentials, $request->has('remember')))
+		// Login using alias if not full email
+		$userField = (str_contains($credentials['email'], "@")) ? 'email' : 'alias';
+
+		if ($this->auth->attempt([$userField => $credentials['email'], 'password' => $credentials['password'], 'disabled' => false], $request->has('remember')))
 		{
 			// Fire UserLoggedIn Event
 			Event::fire('Mrcore\Modules\Auth\Events\UserLoggedIn');
-
-			// Redirect to intended url
-			#return redirect()->intended($this->redirectPath());
 
 			// Redirect to intended url or home page if not found
 			// Never could get laravels redirect()->intended() to work so I manage manually
 			return redirect((Input::get('referer') ?: route('home')));
 		}
 
+		// Invalid login, redirect with error message
 		return redirect('/auth/login')
 			->withInput($request->only('email'))
-			->withErrors([
-				'email' => 'These credentials do not match our records.',
-			]);
-
-
-
-		// OLD mrcore5 auth stuff - keep for awhile, organize soon
-		
-		#$app = app();
-		#$username = Input::get('email');
-		#$password = Input::get('password');
-		#if (Input::has('referer')) {
-		#	$referer = Input::get('referer');
-		#} else {
-		#	$referer = route('home');
-		#}
-
-		#if (isset($app['login'])) {
-			// Login override service provider exists, use it!
-		#	$login = $app->make('login');
-		#	return $login->validate($username, $password, $referer);
-
-		#} else {
-			// Default mrcore login
-			#$userField = 'email';
-			#if (strpos($username, '@') === false) {
-			#	$userField = 'alias';
-			#}
-
-			#if ($this->auth->attempt(array($userField => $username, 'password' => $password, 'disabled' => false)))
-			#{
-				//Authentication Successful
-				#Auth::user()->login();
-
-				// Redirect to intended url or home page if not found
-				#return Redirect::to($referer);
-
-			#	return redirect()->intended($this->redirectPath());
-			#} else {
-				// Invalid Login
-				#sleep(3);
-				#return Redirect::route('login')
-				#	->with('message', 'Invalid username/password')
-				#	->with('referer', $referer);
-			#}
-		#}
-
+			->withErrors(['email' => 'These credentials do not match our records.']);
 	}
 
 	/**

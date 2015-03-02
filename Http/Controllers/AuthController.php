@@ -20,7 +20,7 @@ class AuthController extends Controller {
 	|
 	*/
 
-	use AuthenticatesAndRegistersUsers;
+	#use AuthenticatesAndRegistersUsers; #no becuase I don't want to register
 
 	/**
 	 * Create a new authentication controller instance.
@@ -36,6 +36,16 @@ class AuthController extends Controller {
 
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
+
+	/**
+	 * Show the application login form.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getLogin()
+	{
+		return view('auth.login');
+	}	
 
 	/**
 	 * Handle a login request to the application.

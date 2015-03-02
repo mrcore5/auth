@@ -63,9 +63,6 @@ class AuthController extends Controller {
 		// Pull only email/password from input
 		$credentials = $request->only('email', 'password');
 
-		// Fire UserLogin Event, passing attempted credentials
-		#Event::fire('Mrcore\Modules\Auth\Events\UserLogin', [$credentials]);
-
 		// Login using alias if not full email
 		$userField = (str_contains($credentials['email'], "@")) ? 'email' : 'alias';
 

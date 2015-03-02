@@ -64,15 +64,15 @@ class AuthController extends Controller {
 		$credentials = $request->only('email', 'password');
 
 		// Fire UserLogin Event, passing attempted credentials
-		Event::fire('Mrcore\Modules\Auth\Events\UserLogin', [$credentials]);
+		#Event::fire('Mrcore\Modules\Auth\Events\UserLogin', [$credentials]);
 
 		// Login using alias if not full email
 		$userField = (str_contains($credentials['email'], "@")) ? 'email' : 'alias';
 
 		if ($this->auth->attempt([$userField => $credentials['email'], 'password' => $credentials['password'], 'disabled' => false], $request->has('remember')))
 		{
-			// Fire UserLoggedIn Event
-			Event::fire('Mrcore\Modules\Auth\Events\UserLoggedIn');
+			// Laravels auth.attempt event fired on every attempt
+			// Laravels auth.login event fired on successful login
 
 			// Redirect to intended url or home page if not found
 			// Never could get laravels redirect()->intended() to work so I manage manually
@@ -95,8 +95,7 @@ class AuthController extends Controller {
 		// Log user out
 		$this->auth->logout();
 
-		// Fire UserLoggedOut Event
-		Event::fire('Mrcore\Modules\Auth\Events\UserLoggedOut');
+		// Laravels auth.logout event fired here
 
 		return redirect('/');
 	}	

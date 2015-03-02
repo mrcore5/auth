@@ -60,8 +60,8 @@ class PasswordController extends Controller {
 			$user->password = bcrypt($password);
 			$user->save();
 
-			// Fire PasswordReset Event, passing the password
-			Event::fire('Mrcore\Modules\Auth\Events\PasswordReset', [$user, $password]);
+			// Fire auth.reset Event
+			Event::fire('auth.reset', [['email' => $user->email, 'password' => $password]]);
 
 			// Log the user in
 			$this->auth->login($user);

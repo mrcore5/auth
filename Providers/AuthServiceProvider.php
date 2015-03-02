@@ -33,6 +33,9 @@ class AuthServiceProvider extends ServiceProvider {
 	{
 		// Mrcore Module Tracking
 		Module::trace(get_class(), __function__);
+
+		// Laravel has auth.attemp, auth.login, auth.logout.   I added auth.reset
+		$this->app->bind('Mrcore\Modules\Auth\Events\PasswordReset', 'auth.reset');
 	}
 
 }

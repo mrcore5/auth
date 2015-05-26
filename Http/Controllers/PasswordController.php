@@ -64,7 +64,9 @@ class PasswordController extends Controller {
 			Event::fire('auth.reset', [['email' => $user->email, 'password' => $password]]);
 
 			// Log the user in
-			$this->auth->login($user);
+			# No, because this does not fire all the regular login events like auth.attempt...
+			# So just ignore, and it will redirect back to main / page and not login, they can login manually
+			#$this->auth->login($user);
 		});
 
 		switch ($response)

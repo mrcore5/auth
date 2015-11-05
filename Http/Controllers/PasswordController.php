@@ -3,6 +3,7 @@
 use Event;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Password;
 
 class PasswordController extends Controller {
 
@@ -47,7 +48,7 @@ class PasswordController extends Controller {
 			'email', 'password', 'password_confirmation', 'token'
 		);
 
-		$response = $this->passwords->reset($credentials, function($user, $password)
+		$response = Password::reset($credentials, function($user, $password)
 		{
 			// Set new password
 			$user->password = bcrypt($password);
@@ -62,15 +63,14 @@ class PasswordController extends Controller {
 			#$this->auth->login($user);
 		});
 
-		switch ($response)
-		{
-			case PasswordBroker::PASSWORD_RESET:
-				return redirect($this->redirectPath());
+		switch ($response) {
+			case Password::PASSWORD_RESET:
+				return redirect($this->redirectPath())->with('status', trans($response));
 
 			default:
 				return redirect()->back()
 					->withInput($request->only('email'))
 					->withErrors(['email' => trans($response)]);
 		}
-	}	
+	}
 }

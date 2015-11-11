@@ -1,4 +1,4 @@
-<?php namespace Mrcore\Modules\Auth\Events;
+<?php namespace Mrcore\Auth\Events;
 
 abstract class Event {
 

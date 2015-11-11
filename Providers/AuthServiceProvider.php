@@ -1,8 +1,8 @@
-<?php namespace Mrcore\Modules\Auth\Providers;
+<?php namespace Mrcore\Auth\Providers;
 
 use View;
 use Module;
-use Mrcore\Modules\Foundation\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider {
 
@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider {
 		Module::trace(get_class(), __function__);
 
 		// Laravel has auth.attemp, auth.login, auth.logout.   I added auth.reset
-		$this->app->alias('Mrcore\Modules\Auth\Events\PasswordReset', 'auth.reset');
+		$this->app->alias('Mrcore\Auth\Events\PasswordReset', 'auth.reset');
 	}
 
 }

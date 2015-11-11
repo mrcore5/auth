@@ -3,10 +3,10 @@
 	"type": "library",
 	"description": "Mrcore Auth Module",
 	"keywords": ["mrcore", "framework", "auth", "laravel"],
-	"homepage": "http://github.com/mreschke/mrcore-modules-auth",
+	"homepage": "http://github.com/mrcore5/auth",
 	"license": "MIT",
 	"support": {
-		"issues": "https://github.com/mreschke/mrcore-modules-auth/issues"
+		"issues": "https://github.com/mrcore5/auth/issues"
 	},
 	"authors": [
 		{
@@ -17,7 +17,7 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"Mrcore\\Modules\\Auth\\": ""
+			"Mrcore\\Auth\\": ""
 		}
 	}
 }

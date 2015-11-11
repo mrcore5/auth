@@ -26,7 +26,7 @@ This auth module fires these events:
 Because auth.attempt fires before actual login, this is the best place to
 intercept the request before it is attempted.  If you cannot override
 the auth system from these events, then just make your own Auth module
-and use that one instead of Mrcore\Modules\Auth.
+and use that one instead of Mrcore\Auth.
 
 ## Contributing
 

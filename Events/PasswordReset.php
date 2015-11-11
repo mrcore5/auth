@@ -1,6 +1,6 @@
-<?php namespace Mrcore\Modules\Auth\Events;
+<?php namespace Mrcore\Auth\Events;
 
-use Mrcore\Modules\Auth\Events\Event;
+use Mrcore\Auth\Events\Event;
 use Illuminate\Queue\SerializesModels;
 
 class PasswordReset extends Event {
@@ -14,7 +14,7 @@ class PasswordReset extends Event {
 	 */
 	public function __construct()
 	{
-		// 
+		//
 	}
 
 }

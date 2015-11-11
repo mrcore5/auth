@@ -1,4 +1,4 @@
-<?php namespace Mrcore\Modules\Auth\Http\Controllers;
+<?php namespace Mrcore\Auth\Http\Controllers;
 
 use Input;
 use Event;
@@ -42,7 +42,7 @@ class AuthController extends Controller {
 	public function getLogin()
 	{
 		return view('auth.login');
-	}	
+	}
 
 	/**
 	 * Handle a login request to the application.
@@ -92,5 +92,5 @@ class AuthController extends Controller {
 		// Laravels auth.logout event fired here
 
 		return redirect('/');
-	}	
+	}
 }

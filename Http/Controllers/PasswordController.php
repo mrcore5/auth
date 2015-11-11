@@ -1,4 +1,4 @@
-<?php namespace Mrcore\Modules\Auth\Http\Controllers;
+<?php namespace Mrcore\Auth\Http\Controllers;
 
 use Event;
 use Illuminate\Http\Request;

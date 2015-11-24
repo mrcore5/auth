@@ -15,6 +15,9 @@
 			"homepage": "http://mreschke.com"
 		}
 	],
+	"require": {
+		"mrcore/foundation": "*"
+	},
 	"autoload": {
 		"classmap": [
 			"Database"

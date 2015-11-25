@@ -16,7 +16,7 @@
 		}
 	],
 	"require": {
-		"mrcore/foundation": "*"
+		"mrcore/foundation": "~1.0"
 	},
 	"autoload": {
 		"classmap": [

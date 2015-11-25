@@ -1,6 +1,6 @@
 {
 	"name": "mrcore/auth",
-	"type": "laravel-library",
+	"type": "library",
 	"description": "Mrcore Auth Module",
 	"keywords": ["mrcore", "framework", "auth", "laravel"],
 	"homepage": "http://github.com/mrcore5/auth",
@@ -16,7 +16,6 @@
 		}
 	],
 	"require": {
-		"composer/installers": "~1.0",
 		"mrcore/foundation": "*"
 	},
 	"autoload": {

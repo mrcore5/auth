@@ -7,7 +7,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Login</div>
 				<div class="panel-body">
-					@if (count($errors) > 0)
+					@if (isset($errors) && count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
@@ -25,7 +25,7 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="email" value="{{ old('email') }}" autofocus="autofocus">
+								<input type="text" class="form-control" name="email" autofocus="autofocus">
 							</div>
 						</div>
 

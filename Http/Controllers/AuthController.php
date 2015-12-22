@@ -4,6 +4,7 @@ use Input;
 use Event;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller {
@@ -19,9 +20,7 @@ class AuthController extends Controller {
 	|
 	*/
 
-	protected $auth;
-
-	#use AuthenticatesAndRegistersUsers; #no becuase I don't want to register
+	use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
 	/**
 	 * Create a new authentication controller instance.
@@ -35,27 +34,25 @@ class AuthController extends Controller {
 	}
 
 	/**
-	 * Show the application login form.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getLogin()
-	{
-		return view('auth.login');
-	}
-
-	/**
-	 * Handle a login request to the application.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function postLogin(Request $request)
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postLogin(Request $request)
 	{
 		// Validate Input and redirect if Invalidated
 		$this->validate($request, [
 			'email' => 'required', 'password' => 'required',
 		]);
+
+		// If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+            return $this->sendLockoutResponse($request);
+        }
 
 		// Pull only email/password from input
 		$credentials = $request->only('email', 'password');

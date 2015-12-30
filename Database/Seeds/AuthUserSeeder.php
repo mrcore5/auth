@@ -3,7 +3,7 @@
 use DB;
 use Hash;
 use Mrcore\Wiki\Models\User;
-use Mreschke\Helpers\String;
+use Mreschke\Helpers\Str;
 use Illuminate\Database\Seeder;
 use Mrcore\Wiki\Models\UserRole;
 use Mrcore\Wiki\Models\UserPermission;
@@ -18,7 +18,7 @@ class AuthUserSeeder extends Seeder
 
 		// 1 Anonymous User
 		User::create(array(
-			'uuid'     => String::getGuid(),
+			'uuid'     => Str::getGuid(),
 			'email'    => 'anonymous@anonymous.com',
 			'password' => Hash::make(md5(microtime())),
 			'first'    => 'Anonymous',
@@ -35,7 +35,7 @@ class AuthUserSeeder extends Seeder
 
 		// 2 Admin
 		User::create(array(
-			'uuid'     => String::getGuid(),
+			'uuid'     => Str::getGuid(),
 			'email'    => 'mail@mreschke.com',
 			'password' => Hash::make('password'),
 			'first'    => 'Admin',

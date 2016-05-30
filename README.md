@@ -1,10 +1,10 @@
-## Mrcore Auth Module
+## Mrcore Auth Module v2.0
 
 This is an mRcore module that provides auth functionality.
 
 ## What Is Mrcore
 
-Mrcore is a set of Laravel and Lumen components used to build various systems.
+Mrcore is a set of Laravel components used to build various systems.
 It is a framework, a development platform and a CMS.  It is a modularized version of Laravel
 providing better package development support.  Think of Laravel 4.x workbenches on steroids.
 
@@ -12,7 +12,7 @@ See https://github.com/mrcore5/framework for details and installation instructio
 
 ## Official Documentation
 
-For this wiki module, well, there is not much.  See also https://github.com/mreschke/mrcore5
+For this wiki module, well, there is not much.  See also https://github.com/mcore5/framework
 
 ### Events
 

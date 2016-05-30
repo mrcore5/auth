@@ -16,17 +16,17 @@ For this wiki module, well, there is not much.  See also https://github.com/mres
 
 ### Events
 
-This auth module fires these events:
+This auth module fires regular laravel events found here https://laravel.com/docs/5.2/authentication#events
 
-* auth.attemp fires during an attempt, before login success or fail
-* auth.login fires on successful login
-* auth.logout fires on logout
-* auth.reset fires on password reset
-
-Because auth.attempt fires before actual login, this is the best place to
+Because `attempting` fires before actual login, this is the best place to
 intercept the request before it is attempted.  If you cannot override
 the auth system from these events, then just make your own Auth module
 and use that one instead of Mrcore\Auth.
+
+## Versions
+
+* 1.0 is for Laravel 5.1 and below
+* 2.0 is for Laravel 5.2 and above
 
 ## Contributing
 

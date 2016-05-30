@@ -16,7 +16,7 @@ class AuthSeeder extends Seeder
 	public function run()
 	{
 		// Production saftey
-		if (App::environment() === 'production') {
+		if (app()->environment('production')) {
 			exit('You cannot run the seeder in production');
 		}
 

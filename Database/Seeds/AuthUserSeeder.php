@@ -2,11 +2,11 @@
 
 use DB;
 use Hash;
-use Mrcore\Wiki\Models\User;
+use Mrcore\Auth\Models\User;
 use Mreschke\Helpers\Str;
 use Illuminate\Database\Seeder;
-use Mrcore\Wiki\Models\UserRole;
-use Mrcore\Wiki\Models\UserPermission;
+use Mrcore\Auth\Models\UserRole;
+use Mrcore\Auth\Models\UserPermission;
 
 class AuthUserSeeder extends Seeder
 {

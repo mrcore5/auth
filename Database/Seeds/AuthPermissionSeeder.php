@@ -1,8 +1,8 @@
 <?php namespace Mrcore\Auth\Database\Seeds;
 
+use Mrcore\Auth\Models\Role;
 use Illuminate\Database\Seeder;
-use Mrcore\Wiki\Models\Permission;
-use Mrcore\Wiki\Models\Role;
+use Mrcore\Auth\Models\Permission;
 
 class AuthPermissionSeeder extends Seeder
 {

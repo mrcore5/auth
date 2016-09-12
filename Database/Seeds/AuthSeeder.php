@@ -24,7 +24,6 @@ class AuthSeeder extends Seeder
 		Model::unguard();
 
 		// Order is critical
-		$this->call(Seeds\AuthPermissionSeeder::class);
 		$this->call(Seeds\AuthUserSeeder::class);
 	}
 

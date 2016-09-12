@@ -1,11 +1,12 @@
 <?php namespace Mrcore\Auth\Http\Controllers;
 
-use Event;
-use Illuminate\Http\Request;
+#use Event;
+#use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Password;
+use Illuminate\Support\Facades\Password;
+#use Password;
 
-class PasswordController extends Controller {
+class ResetPasswordController extends Controller {
 
 	/*
 	|--------------------------------------------------------------------------
@@ -33,10 +34,48 @@ class PasswordController extends Controller {
 	/**
 	 * Reset the given user's password.
 	 *
-	 * @param  Request  $request
-	 * @return Response
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
 	 */
-	public function postReset(Request $request)
+	public function reset(Request $request)
+	{
+		$this->validate($request, [
+			'token' => 'required', 'email' => 'required|email',
+			'password' => 'required|confirmed|min:6',
+		]);
+
+		// Here we will attempt to reset the user's password. If it is successful we
+		// will update the password on an actual user model and persist it to the
+		// database. Otherwise we will parse the error and return the response.
+		$response = $this->broker()->reset(
+			$this->credentials($request), function ($user, $password) {
+				$this->resetPassword($user, $password);
+			}
+		);
+
+		// Fire auth.reset Event (mreschke addition)
+		dd("reset...fixme events???");
+		#Event::fire('auth.reset', [['email' => $user->email, 'password' => $password]]);
+
+		// If the password was successfully reset, we will redirect the user back to
+		// the application's home authenticated view. If there is an error we can
+		// redirect them back to where they came from with their error message.
+		return $response == Password::PASSWORD_RESET
+					? $this->sendResetResponse($response)
+					: $this->sendResetFailedResponse($request, $response);
+	}
+
+	/**
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker();
+    }
+
+/*	public function postReset(Request $request)
 	{
 		$this->validate($request, [
 			'token' => 'required',
@@ -73,4 +112,5 @@ class PasswordController extends Controller {
 					->withErrors(['email' => trans($response)]);
 		}
 	}
+	*/
 }

@@ -4,31 +4,82 @@ use DB;
 use Auth;
 use Config;
 use Session;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Mrcore\Foundation\Support\Cache;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Authenticatable
+class UserOLD extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-	use Notifiable;
+
+	use Authenticatable, Authorizable, CanResetPassword;
 
 	/**
-	 * The attributes that are mass assignable.
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'users';
+
+	/**
+	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
-	protected $fillable = [
-		'name', 'email', 'password',
-	];
+	protected $hidden = ['password', 'remember_token'];
 
 	/**
-	 * The attributes that should be hidden for arrays.
+	 * Get the unique identifier for the user.
 	 *
-	 * @var array
+	 * @return mixed
 	 */
-	protected $hidden = [
-		'password', 'remember_token',
-	];
+	public function getAuthIdentifier()
+	{
+		return $this->getKey();
+	}
+
+	/**
+	 * Get the password for the user.
+	 *
+	 * @return string
+	 */
+	public function getAuthPassword()
+	{
+		return $this->password;
+	}
+
+	/**
+	 * Get the remember me token for the user.
+	 *
+	 * @return string
+	 */
+	public function getRememberToken()
+	{
+	    return $this->remember_token;
+	}
+
+	/**
+	 * Set the remember me token for the user.
+	 *
+	 */
+	public function setRememberToken($value)
+	{
+	    $this->remember_token = $value;
+	}
+
+	/**
+	 * Get the remember me token name
+	 *
+	 * @return string
+	 */
+	public function getRememberTokenName()
+	{
+	    return 'remember_token';
+	}
 
 	/**
 	 * Get the user's full name
@@ -37,20 +88,7 @@ class User extends Authenticatable
 	 */
 	public function getNameAttribute()
 	{
-		// mReschke
 		return $this->first.' '.$this->last;
-	}
-
-	/**
-	 * Send the password reset notification.
-	 *
-	 * @param  string  $token
-	 * @return void
-	 */
-	public function sendPasswordResetNotificationXX($token)
-	{
-		// mReschke override
-		$this->notify(new ResetPasswordNotification($token));
 	}
 
 	/**
@@ -58,18 +96,30 @@ class User extends Authenticatable
 	 *
 	 * @param  mixed  $id
 	 * @param  array  $columns
-	 * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
+	 * @return \Illuminate\Database\Eloquent\Model|static|null
 	 */
-	public static function find_NOT_NEEDED($id, $columns = array('*'))
+	public static function find($id, $columns = array('*'))
 	{
-		// Cache NOT needed becuase I already cache Auth::user, so this only hits
-		// if you query OTHER users, which is vary rare.
-		// mReschke override to cache results
-		$cacheID = $id;
-		if (is_array($cacheID)) $cacheID = implode('-', $cacheID);
-		return Cache::remember(strtolower(get_class())."$cacheID", function() use($id, $columns) {
-			return static::query()->find($id, $columns); // Use this instead of parent::find()
+		return Cache::remember(strtolower(get_class())."_$id", function() use($id, $columns) {
+			return static::query()->find($id, $columns);
 		});
+	}
+
+	/**
+	 * Get current logged in user
+	 * @return Mrcore\Auth\Models\User
+	 */
+	public static function currentUserTEST()
+	{
+		if (Auth::check()) {
+			return Auth::user();
+		} else {
+			$user = User::find(Config::get('mrcore.wiki.anonymous'));
+			Auth::login($user);
+			Auth::user()->login();
+			#return self::find(Config::get('mrcore.wiki.anonymous'));
+			return Auth::user();
+		}
 	}
 
 	/**

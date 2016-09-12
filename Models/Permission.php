@@ -25,12 +25,15 @@ class Permission extends Model
 	 *
 	 * @param  mixed  $id
 	 * @param  array  $columns
-	 * @return \Illuminate\Database\Eloquent\Model|static|null
+	 * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
 	 */
 	public static function find($id, $columns = array('*'))
 	{
-		return Cache::remember(strtolower(get_class()).":$id", function() use($id, $columns) {
-			return static::query()->find($id, $columns);
+		// mReschke override to cache results
+		$cacheID = $id;
+		if (is_array($cacheID)) $cacheID = implode('-', $cacheID);
+		return Cache::remember(strtolower(get_class())."$cacheID", function() use($id, $columns) {
+			return static::query()->find($id, $columns); // Use this instead of parent::find()
 		});
 	}
 

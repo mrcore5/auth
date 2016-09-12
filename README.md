@@ -26,7 +26,7 @@ and use that one instead of Mrcore\Auth.
 ## Versions
 
 * 1.0 is for Laravel 5.1 and below
-* 2.0 is for Laravel 5.2 and above
+* 2.0 is for Laravel 5.3 and above
 
 ## Contributing
 

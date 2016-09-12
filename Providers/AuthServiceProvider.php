@@ -28,19 +28,31 @@ class AuthServiceProvider extends ServiceProvider
 		Module::trace(get_class(), __function__);
 
 		// Register publishers
-		$this->registerPublishers();
+		#$this->registerPublishers();
+
+		// Register migrations
+		$this->registerMigrations();
 
 		// Register Policies
-		$this->registerPolicies();
+		#$this->registerPolicies();
 
 		// Register global and route based middleware
-		$this->registerMiddleware($kernel, $router);
+		#$this->registerMiddleware($kernel, $router);
 
 		// Register event listeners and subscriptions
-		$this->registerListeners();
+		#$this->registerListeners();
 
 		// Register mrcore layout overrides
-		$this->registerLayout();
+		#$this->registerLayout();
+
+		// Register scheduled tasks
+		#$this->registerSchedules();
+
+		// Override laravels notification views that were at:
+		// vendor/laravel/framework/src/Illuminate/Notifications/resources/views
+		// Used by vendor/laravel/framework/src/Illuminate/Notifications/Messages/MailMessage.php
+		###$this->loadViewsFrom(__DIR__.'/../Views/notifications', 'notifications');
+
 	}
 
 	/**
@@ -53,24 +65,106 @@ class AuthServiceProvider extends ServiceProvider
 		// Mrcore Module Tracking
 		Module::trace(get_class(), __function__);
 
-		// Register facades
-		#class_alias('Mrcore\Appstub\Facades\Appstub', 'Appstub');
+		// Register facades and class aliases
+		#$this->registerFacades();
 
 		// Register configs
-		$this->registerConfigs();
+		#$this->registerConfigs();
 
-		// Register IoC bind aliases
-		// Laravel has auth.attemp, auth.login, auth.logout.  Added auth.reset
-		$this->app->alias(Mrcore\Auth\Events\PasswordReset::class, 'auth.reset');
-
-		// Register other service providers
-		#$this->app->register(Mrcore\Appstub\Providers\OtherServiceProvider::class);
+		// Register services
+		$this->registerServices();
 
 		// Register artisan commands
 		$this->registerCommands();
 
 		// Register testing environment
-		$this->registerTestingEnvironment();
+		#$this->registerTestingEnvironment();
+
+		// Register mrcore modules
+		#$this->registerModules();
+
+	}
+
+	/**
+	 * Register facades and class aliases.
+	 *
+	 * @return void
+	 */
+	protected function registerFacades()
+	{
+		#$facade = AliasLoader::getInstance();
+		#$facade->alias('Appstub', \Mrcore\Appstub\Facades\Appstub::class);
+		#class_alias('Some\Long\Class', 'Short');
+	}
+
+	/**
+	 * Register additional configs and merges.
+	 *
+	 * @return void
+	 */
+	protected function registerConfigs()
+	{
+		// Append or overwrite configs
+		#config(['test' => 'hi']);
+
+		// Merge configs
+		#$this->mergeConfigFrom(__DIR__.'/../Config/appstub.php', 'mrcore.appstub');
+	}
+
+	/**
+	 * Register the application and other services.
+	 *
+	 * @return void
+	 */
+	protected function registerServices()
+	{
+		// Register IoC bind aliases and singletons
+
+		// Laravel has auth.attemp, auth.login, auth.logout.  Added auth.reset
+		$this->app->alias(Mrcore\Auth\Events\PasswordReset::class, 'auth.reset');
+
+		#$this->app->alias(\Mrcore\Appstub\Appstub::class, \Mrcore\Appstub::class)
+		#$this->app->singleton(\Mrcore\Appstub\Appstub::class, \Mrcore\Appstub::class)
+
+		// Register other service providers
+		#$this->app->register(\Mrcore\Appstub\Providers\OtherServiceProvider::class);
+	}
+
+	/**
+	 * Register artisan commands.
+	 * @return void
+	 */
+	protected function registerCommands()
+	{
+		if (!$this->app->runningInConsole()) return;
+		$this->commands([
+			\Mrcore\Auth\Console\Commands\AppCommand::class
+		]);
+	}
+
+	/**
+	 * Register test environment overrides
+	 *
+	 * @return void
+	 */
+	public function registerTestingEnvironment()
+	{
+		// Register testing environment
+		if ($this->app->environment('testing')) {
+			//
+		}
+	}
+
+	/**
+	 * Register mrcore modules
+	 *
+	 * @return void
+	 */
+	public function registerModules()
+	{
+		// Register mrcore modules
+		#Module::register('Mrcore\Other', true);
+		#Module::loadViews('Mrcore\Other'); // If you need to use this modules view::
 	}
 
 	/**
@@ -106,6 +200,17 @@ class AuthServiceProvider extends ServiceProvider
 			"$path/Database/Seeds" => base_path('/database/seeds'),
 		], 'mrcore.appstub.seeds');
 		*/
+	}
+
+	/**
+	 * Register the migrations.
+	 *
+	 * @return void
+	 */
+	protected function registerMigrations()
+	{
+		if (!$this->app->runningInConsole()) return;
+		$this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 	}
 
 	/**
@@ -164,6 +269,31 @@ class AuthServiceProvider extends ServiceProvider
 	}
 
 	/**
+	 * Register the scheduled tasks
+	 *
+	 * @return void
+	 */
+	protected function registerSchedules()
+	{
+		// Register all task schedules for this hostname ONLY if running from the schedule:run command
+		/*if (app()->runningInConsole() && isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'schedule:run') {
+
+			// Defer until after all providers booted, or the scheduler instance is removed from Illuminate\Foundation\Console\Kernel defineConsoleSchedule()
+			$this->app->booted(function() {
+
+				// Get the scheduler instance
+				$schedule = app('Illuminate\Console\Scheduling\Schedule');
+
+				// Define our schedules
+				$schedule->call(function() {
+					echo "hi";
+				})->everyMinute();
+
+			});
+		}*/
+	}
+
+	/**
 	 * Register mrcore layout overrides.
 	 *
 	 * @return void
@@ -174,45 +304,6 @@ class AuthServiceProvider extends ServiceProvider
 
 		// Register additional css assets with mrcore Layout
 		#Layout::css('css/wiki-bundle.css');
-	}
-
-	/**
-	 * Register additional configs and merges.
-	 *
-	 * @return void
-	 */
-	protected function registerConfigs()
-	{
-		// Append or overwrite configs
-		#config(['test' => 'hi']);
-
-		// Merge configs
-		#$this->mergeConfigFrom(__DIR__.'/../Config/appstub.php', 'mrcore.appstub');
-	}
-
-	/**
-	 * Register artisan commands.
-	 * @return void
-	 */
-	protected function registerCommands()
-	{
-		if (!$this->app->runningInConsole()) return;
-		$this->commands([
-			\Mrcore\Auth\Console\Commands\AppCommand::class
-		]);
-	}
-
-	/**
-	 * Register test environment overrides
-	 *
-	 * @return void
-	 */
-	public function registerTestingEnvironment()
-	{
-		// Register testing environment
-		if ($this->app->environment('testing')) {
-			//
-		}
 	}
 
 	/**

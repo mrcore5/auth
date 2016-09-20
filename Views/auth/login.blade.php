@@ -9,6 +9,11 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
                         {{ csrf_field() }}
+                        @if (isset($referer))
+                            <input type="text" id="referer" name="referer" value="{{ $referer }}">
+                        @else
+                            <input type="text" id="referer" name="referer" value="{{ Input::get('referer') }}">
+                        @endif 
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>

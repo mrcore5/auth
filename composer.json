@@ -1,29 +1,29 @@
 {
-	"name": "mrcore/auth",
-	"type": "library",
-	"description": "Mrcore Auth Module",
-	"keywords": ["mrcore", "framework", "auth", "laravel"],
-	"homepage": "http://github.com/mrcore5/auth",
-	"license": "MIT",
-	"support": {
-		"issues": "https://github.com/mrcore5/auth/issues"
-	},
-	"authors": [
-		{
-			"name": "Matthew Reschke",
-			"email": "mail@mreschke.com",
-			"homepage": "http://mreschke.com"
-		}
-	],
-	"require": {
-		"mrcore/foundation": "~2.0"
-	},
-	"autoload": {
-		"classmap": [
-			"Database"
-		],
-		"psr-4": {
-			"Mrcore\\Auth\\": ""
-		}
-	}
+    "name": "mrcore/auth",
+    "type": "library",
+    "description": "Mrcore Auth Module",
+    "keywords": ["mrcore", "framework", "auth", "laravel"],
+    "homepage": "http://github.com/mrcore5/auth",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/mrcore5/auth/issues"
+    },
+    "authors": [
+        {
+            "name": "Matthew Reschke",
+            "email": "mail@mreschke.com",
+            "homepage": "http://mreschke.com"
+        }
+    ],
+    "require": {
+        "mrcore/foundation": "~2.0"
+    },
+    "autoload": {
+        "classmap": [
+            "Database"
+        ],
+        "psr-4": {
+            "Mrcore\\Auth\\": ""
+        }
+    }
 }

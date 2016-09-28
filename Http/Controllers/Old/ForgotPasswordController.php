@@ -28,7 +28,7 @@ class ForgotPasswordController extends Controller
         $this->middleware('guest');
     }
 
-	/**
+    /**
      * Display the form to request a password reset link.
      *
      * @return \Illuminate\Http\Response
@@ -36,6 +36,6 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         #return view('auth.passwords.email');
-		return view('auth.reset');
+        return view('auth.reset');
     }
 }

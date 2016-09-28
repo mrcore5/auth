@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Password;
 
 #use Password;
 
-class ResetPasswordController extends Controller
+class ResetPasswordControllerOLD extends Controller
 {
 
     /*

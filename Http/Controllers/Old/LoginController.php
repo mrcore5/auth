@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 //use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class LoginController extends Controller
+class LoginControllerOLD extends Controller
 {
 
     /*

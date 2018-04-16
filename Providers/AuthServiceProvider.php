@@ -68,7 +68,7 @@ class AuthServiceProvider extends ServiceProvider
         #$this->registerFacades();
 
         // Register configs
-        #$this->registerConfigs();
+        $this->registerConfigs();
 
         // Register services
         $this->registerServices();
@@ -106,7 +106,7 @@ class AuthServiceProvider extends ServiceProvider
         #config(['test' => 'hi']);
 
         // Merge configs
-        #$this->mergeConfigFrom(__DIR__.'/../Config/appstub.php', 'mrcore.appstub');
+        $this->mergeConfigFrom(__DIR__.'/../Config/auth.php', 'mrcore.auth');
     }
 
     /**

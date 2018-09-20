@@ -18,6 +18,32 @@ class AuthServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        // Mrcore Module Tracking
+        Module::trace(get_class(), __function__);
+
+        // Register facades and class aliases
+        #$this->registerFacades();
+
+        // Register configs
+        $this->registerConfigs();
+
+        // Register services
+        $this->registerServices();
+
+        // Register testing environment
+        #$this->registerTestingEnvironment();
+
+        // Register mrcore modules
+        #$this->registerModules();
+    }
+
+    /**
      * Bootstrap the application services.
      *
      * @return void
@@ -42,45 +68,19 @@ class AuthServiceProvider extends ServiceProvider
         // Register event listeners and subscriptions
         #$this->registerListeners();
 
-        // Register mrcore layout overrides
-        #$this->registerLayout();
-
         // Register scheduled tasks
         #$this->registerSchedules();
+
+        // Register mrcore layout overrides
+        #$this->registerLayout();
 
         // Override laravels notification views that were at:
         // vendor/laravel/framework/src/Illuminate/Notifications/resources/views
         // Used by vendor/laravel/framework/src/Illuminate/Notifications/Messages/MailMessage.php
         ###$this->loadViewsFrom(__DIR__.'/../Views/notifications', 'notifications');
-    }
-
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        // Mrcore Module Tracking
-        Module::trace(get_class(), __function__);
-
-        // Register facades and class aliases
-        #$this->registerFacades();
-
-        // Register configs
-        $this->registerConfigs();
-
-        // Register services
-        $this->registerServices();
 
         // Register artisan commands
         $this->registerCommands();
-
-        // Register testing environment
-        #$this->registerTestingEnvironment();
-
-        // Register mrcore modules
-        #$this->registerModules();
     }
 
     /**
@@ -129,30 +129,14 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register artisan commands.
-     * @return void
-     */
-    protected function registerCommands()
-    {
-        if (!$this->app->runningInConsole()) {
-            return;
-        }
-        $this->commands([
-            \Mrcore\Auth\Console\Commands\AppCommand::class
-        ]);
-    }
-
-    /**
      * Register test environment overrides
      *
      * @return void
      */
     public function registerTestingEnvironment()
     {
-        // Register testing environment
-        if ($this->app->environment('testing')) {
-            //
-        }
+        // Does not apply if NOT running in 'testing' mode
+        if (!$this->app->environment('testing')) return;
     }
 
     /**
@@ -174,33 +158,30 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerPublishers()
     {
-        if (!$this->app->runningInConsole()) {
-            return;
-        }
-        /*
-        // Register additional css assets with mrcore Layout
-        Layout::css('css/wiki-bundle.css');
+        // Only applies if running in console
+        if (!$this->app->runningInConsole()) return;
 
+        /*
         // App base path
-        $path = realpath(__DIR__.'/../');
+        $path = realpath(__DIR__.'/../../');
 
         // Config publishing rules
-        // ./artisan vendor:publish --tag="mrcore.appstub.configs"
+        // ./artisan vendor:publish --tag="mrcore.auth.configs"
         $this->publishes([
-            "$path/Config" => base_path('/config/mrcore'),
-        ], 'mrcore.appstub.configs');
+            "$path/config" => base_path('/config/mrcore'),
+        ], 'mrcore.auth.configs');
 
         // Migration publishing rules
-        // ./artisan vendor:publish --tag="mrcore.appstub.migrations"
+        // ./artisan vendor:publish --tag="mrcore.auth.migrations"
         $this->publishes([
-            "$path/Database/Migrations" => base_path('/database/migrations'),
-        ], 'mrcore.appstub.migrations');
+            "$path/database/migrations" => base_path('/database/migrations'),
+        ], 'mrcore.auth.migrations');
 
         // Seed publishing rules
-        // ./artisan vendor:publish --tag="mrcore.appstub.seeds"
+        // ./artisan vendor:publish --tag="mrcore.auth.seeds"
         $this->publishes([
-            "$path/Database/Seeds" => base_path('/database/seeds'),
-        ], 'mrcore.appstub.seeds');
+            "$path/database/seeds" => base_path('/database/seeds'),
+        ], 'mrcore.auth.seeds');
         */
     }
 
@@ -211,10 +192,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerMigrations()
     {
-        if (!$this->app->runningInConsole()) {
-            return;
-        }
-        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
+        // Only applies if running in console
+        if (!$this->app->runningInConsole()) return;
+
+        // Register Migrations
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
     }
 
     /**
@@ -249,6 +231,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerMiddleware(Kernel $kernel, Router $router)
     {
+        // Does not apply if running in console
+        if ($this->app->runningInConsole()) return;
+
         // Register global middleware
         #$kernel->pushMiddleware('Mrcore\Appstub\Http\Middleware\DoSomething');
 
@@ -279,8 +264,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerSchedules()
     {
+        // Only applies if running in console
+        if (!$this->app->runningInConsole()) return;
+
         // Register all task schedules for this hostname ONLY if running from the schedule:run command
-        /*if (app()->runningInConsole() && isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'schedule:run') {
+        /*if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'schedule:run') {
 
             // Defer until after all providers booted, or the scheduler instance is removed from Illuminate\Foundation\Console\Kernel defineConsoleSchedule()
             $this->app->booted(function() {
@@ -304,12 +292,29 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerLayout()
     {
-        if ($this->app->runningInConsole()) {
-            return;
-        }
+        // Does not apply if running in console
+        if ($this->app->runningInConsole()) return;
 
         // Register additional css assets with mrcore Layout
         #Layout::css('css/wiki-bundle.css');
+
+        // Share data wiht all views
+        #View::share('key', 'value');
+    }
+
+    /**
+     * Register artisan commands.
+     * @return void
+     */
+    protected function registerCommands()
+    {
+         // Only applies if running in console
+         if (!$this->app->runningInConsole()) return;
+
+        // Register Commands
+        $this->commands([
+            \Mrcore\Auth\Console\Commands\AppCommand::class
+        ]);
     }
 
     /**
@@ -319,7 +324,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        // Only required if $defer = true and you add bindings
-        //return ['Mrcore\Appstub\Stuff', 'other bindings...'];
+        // Only required if $defer = true and you add bindings in register()
+        // Only use if the provier is super simple and basically only has a simle binding
+        //return ['Mrcore\Auth\Stuff', 'other bindings...'];
     }
 }

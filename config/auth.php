@@ -16,18 +16,18 @@ return [
 
     // These app paths for module and console command usage
     'paths' => [
-        'psr4' => '',
+        'psr4' => 'src',
         'assets' => null,
         'public' => null,
-        'config' => 'Config',
-        'database' => 'Database',
-        'migrations' => 'Database/Migrations',
-        'factories' => 'Database/Factories',
-        'seeds' => 'Database/Seeds',
+        'config' => 'config',
+        'database' => 'database',
+        'migrations' => 'database/migrations',
+        'factories' => 'database/factories',
+        'seeds' => 'database/seeds',
         'tests' => null,
-        'routes' => 'Http/routes.php',
+        'routes' => 'routes/web.php',
         'route_prefix' => null,
-        'views' => 'Views',
+        'views' => 'resource/views',
         'view_prefix' => null,
     ],
 

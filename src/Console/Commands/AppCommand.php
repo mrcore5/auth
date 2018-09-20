@@ -21,7 +21,8 @@ class AppCommand extends Command
     {
         $this->app = 'auth';
         $this->ns = 'Mrcore\Auth';
-        $this->path = ['vendor/mrcore/auth', '../Modules/Auth'];
+        $this->path = ['vendor/mrcore/auth'];
+        $this->paths = config('mrcore.auth.paths');
         $this->connection = 'mysql';
         $this->seeder = 'Mrcore\Auth\Database\Seeds\AuthSeeder';
         parent::__construct();

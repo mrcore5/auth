@@ -2,7 +2,6 @@
 
 use DB;
 use Hash;
-use Mreschke\Helpers\Str;
 use Mrcore\Auth\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +14,7 @@ class AuthUserSeeder extends Seeder
 
         // 1 Anonymous User
         User::create(array(
-            'uuid' => Str::getGuid(),
+            'uuid' => $this->getGuid(),
             'email' => 'anonymous@anonymous.com',
             'password' => Hash::make(md5(microtime())),
             'first' => 'Anonymous',
@@ -32,7 +31,7 @@ class AuthUserSeeder extends Seeder
 
         // 2 Admin
         User::create(array(
-            'uuid' => Str::getGuid(),
+            'uuid' => $this->getGuid(),
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
             'first' => 'Admin',
@@ -46,5 +45,37 @@ class AuthUserSeeder extends Seeder
             'created_by' => 1,
             'updated_by' => 1
         ));
+    }
+
+    /**
+     * Generate a new v4 36 (or 38 with brackets) char GUID.
+     * Ex: 9778d799-b37b-7bfc-2685-47b3d28aa7af
+     * @param bool $includeBrackets
+     * @return string v4 character guid
+     */
+    protected function getGuid($includeBrackets = false)
+    {
+        if (function_exists('com_create_guid')) {
+            //If on a windows platform use Windows COM
+            if ($includeBrackets) {
+                return com_create_guid();
+            } else {
+                return trim(com_create_guid(), '{}');
+            }
+        } else {
+            //If on a *nix platform, build v4 GUID using PHP
+            mt_srand((double)microtime()*10000);
+            $charid = md5(uniqid(rand(), true));
+            $hyphen = chr(45);
+            $uuid =  substr($charid, 0, 8).$hyphen
+                    .substr($charid, 8, 4).$hyphen
+                    .substr($charid, 12, 4).$hyphen
+                    .substr($charid, 16, 4).$hyphen
+                    .substr($charid, 20, 12);
+            if ($includeBrackets) {
+                $uuid = chr(123) . $uuid . chr(125);
+            }
+            return $uuid;
+        }
     }
 }

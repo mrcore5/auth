@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePermissionsAuth extends Migration
+class CreatePermissionsTable extends Migration
 {
 
     /**

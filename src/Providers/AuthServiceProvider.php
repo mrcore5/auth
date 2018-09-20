@@ -106,7 +106,7 @@ class AuthServiceProvider extends ServiceProvider
         #config(['test' => 'hi']);
 
         // Merge configs
-        $this->mergeConfigFrom(__DIR__.'/../Config/auth.php', 'mrcore.auth');
+        $this->mergeConfigFrom(__DIR__.'/../../config/auth.php', 'mrcore.auth');
     }
 
     /**

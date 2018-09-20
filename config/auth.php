@@ -27,7 +27,7 @@ return [
         'tests' => null,
         'routes' => 'routes/web.php',
         'route_prefix' => null,
-        'views' => 'resource/views',
+        'views' => 'resources/views',
         'view_prefix' => null,
     ],
 

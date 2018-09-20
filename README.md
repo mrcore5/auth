@@ -5,6 +5,47 @@
 This module provides auth functionality.
 
 
+## Installation
+
+Assuming you already have a Laravel and [mRcore Framework](https://github.com/mrcore5/framework) installed
+```bash
+composer require mrcore/auth:5.7.*
+```
+
+Edit your `config/modules.php` file and ensure `'Mrcore\Auth' => [],` is set in your `modules` array
+```php
+'modules' => [
+    #...
+    'Mrcore\Auth' => []
+    #...
+]
+```
+
+And ensure `Mrcore\Auth` is set in all 3 `assets, views and routes` arrays under the "Loading Order / Override Management" section
+```php
+#...
+'assets' => [
+    '%app%',
+    'Mrcore\BootswatchTheme',
+    'Mrcore\Auth',
+],
+
+'views' => [
+    '%app%',
+    'Mrcore\BootswatchTheme',
+    'Mrcore\Auth',
+],
+
+'routes' => [
+    '%app%',
+    'Mrcore\Auth',
+    'Mrcore\Foundation',
+],
+#...
+```
+
+
+
 ## What Is mRcore
 
 mRcore is a module/package system for Laravel allowing you to build all your applications as reusable modules.

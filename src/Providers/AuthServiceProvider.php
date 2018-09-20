@@ -54,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
         Module::trace(get_class(), __function__);
 
         // Register publishers
-        #$this->registerPublishers();
+        $this->registerPublishers();
 
         // Register migrations
         $this->registerMigrations();
@@ -161,7 +161,6 @@ class AuthServiceProvider extends ServiceProvider
         // Only applies if running in console
         if (!$this->app->runningInConsole()) return;
 
-        /*
         // App base path
         $path = realpath(__DIR__.'/../../');
 
@@ -171,6 +170,7 @@ class AuthServiceProvider extends ServiceProvider
             "$path/config" => base_path('/config/mrcore'),
         ], 'mrcore.auth.configs');
 
+        /*
         // Migration publishing rules
         // ./artisan vendor:publish --tag="mrcore.auth.migrations"
         $this->publishes([

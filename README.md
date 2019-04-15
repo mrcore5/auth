@@ -1,4 +1,4 @@
-## Mrcore Auth Module v5.7
+## Mrcore Auth Module v5.8
 
 `mrcore/auth` is a module for the [mRcore Framework](https://github.com/mrcore5/framework)
 
@@ -9,7 +9,7 @@ This module provides auth functionality.
 
 Assuming you already have a Laravel and [mRcore Framework](https://github.com/mrcore5/framework) installed
 ```bash
-composer require mrcore/auth:5.7.*
+composer require mrcore/auth:5.8.*
 ```
 
 Edit your `config/modules.php` file and ensure `'Mrcore\Auth' => [],` is set in your `modules` array
